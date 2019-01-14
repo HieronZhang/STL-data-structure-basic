@@ -1,0 +1,69 @@
+//木块问题：从左到右有n个木块，编号为0~~n-1,要求模拟以下4种操作（下面的a和b都是木块编号）：
+//move a onto b
+//move a over b
+//pile a onto b
+//pile a over b
+//遇到quit时终止一组数据
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdio>
+using namespace std;
+
+const int maxn=30;
+int n;
+vector<int>pile[maxn];
+
+void find_block(int a,int &p,int &h){
+    for(p=0;p<n;p++){
+        for(int h=0;h<pile[p].size();h++){
+            if(pile[p][h]==a){
+                return;
+            }
+        }
+    }
+}
+void clear_above(int p,int h){
+    for(int j=h+1;j<pile[p].size();j++){
+        int b=pile[p][j];
+        pile[b].push_back(b);
+    }
+    pile[p].resize(h+1);
+}
+void pile_onto(int p1,int h,int p2){
+    for(int i=h;i<pile[p1].size();i++){
+        pile[p2].push_back(pile[p1][i]);
+    }
+    pile[p1].resize(h);
+}
+void print(){
+    for(int i=0;i<n;i++){
+        cout<<i<<": ";
+        for(int j=0;j<pile[i].size();j++){
+            cout<<pile[i][j]<<" ";
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int a,b;
+    cin>>n;
+    string s1,s2;
+    for(int j=0;j<n;j++){
+        pile[j].push_back(j);
+    }
+    while(cin>>s1>>a>>s2>>b){
+        int pa,pb,ha,hb;
+        find_block(a,pa,ha);
+        find_block(b,pb,hb);
+        if(s1=="move")
+            clear_above(pa,ha);
+        if(s2=="onto")
+            clear_above(pb,hb);
+        pile_onto(pa,ha,pb);
+    }
+    print();
+    return 0;
+}
