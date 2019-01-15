@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+
+struct node{
+    int data;
+    node* next;
+};
+node* head;
+
+void insert(node* daicharu){
+    int k=daicharu->data;
+    if(k<head->data) {
+        daicharu->next = head;
+        head = daicharu;
+        return;
+    }
+    else{
+        node* r,*q;
+        r=head;
+        q=head->next;
+        while(q->next!=NULL){
+            if(daicharu->data>q->data){
+                r=q;
+                q=q->next;
+            }
+            else
+                break;
+        }
+        r->next=daicharu;
+        daicharu->next=q;
+    }
+}
+
+void displaylist(node* head){
+    while(head->next!=NULL){
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<head->data;
+
+}
+
+int main() {
+    head=NULL;
+    node* mnode=NULL;
+    head=new node;
+    head->next=new node;
+    head->next->next=new node;
+    head->data=5;
+    head->next->data=6;
+    head->next->next->data=15;
+    head->next->next->next=NULL;
+    mnode=new node;
+    mnode->data=12;
+    mnode->next=NULL;
+    insert(mnode);
+    displaylist(head);
+    return 0;
+}
