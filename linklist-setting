@@ -6,7 +6,41 @@ struct node{
     node* next;
 };
 
-int main() {
+node *head;//链表头指针
 
+node* create() {
+    node *p = NULL;
+    node *q = NULL;
+    head = NULL;
+    cout << "Please input data:";
+    int n;
+    cin >> n;
+    for (int i = 1; i <= n; i++) {
+        int k;
+        cin >> k;
+        p = new node;
+        p->number = k;
+        if (head == NULL) {
+            head = p;
+        } else
+            q->next = p;
+        q = p;
+    }
+    if (head != NULL) {
+        q->next = NULL;
+    }
+    return head;
+}
+
+void displaylist(node* head){
+    while(head->next!=NULL){
+        cout<<head->number<<" ";
+        head=head->next;
+    }
+    cout<<head->number;
+}
+
+int main() {
+    displaylist(create());
     return 0;
 }
