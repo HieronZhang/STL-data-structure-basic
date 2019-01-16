@@ -1,0 +1,73 @@
+//猴子选大王：
+//n只猴子围成一圈，顺时针方向从1到n编号。之后从1号开始沿顺时针方向让猴子从1，2，···m依次报数，凡报到m的猴子，就让其出圈，
+//取消候选资格。然后不停地按顺时针方向逐一让报出m者出圈，最后剩下一个就是猴王。
+#include <iostream>
+using namespace std;
+
+struct monkey{
+    int num;
+    monkey* next;
+};
+
+monkey *head,*tail;
+
+void create(int nn){
+    int i=1;
+    monkey *p,*q;
+    p=new monkey;
+    head=p;
+    head->num=1;
+    p->next= nullptr;
+    q=p;
+    for(i=2;i<=nn;i++){
+        p=new monkey;
+        p->num=i;
+        q->next=p;
+        q=p;
+        p->next= nullptr;
+    }
+    tail=q;
+    tail->next=head;
+}
+void select(int mm){
+    int x=0;
+    monkey *p,*q;
+    q=tail;
+    do{
+        p=q->next;
+        x++;
+        if(x%mm==0){
+            q->next=p->next;
+            delete p;
+            p=nullptr;
+
+        }
+        else
+            q=p;
+    }
+    while(q->next!=q);
+    head=q;
+}
+
+int main() {
+    int n,m;
+    cout<<"Input the number of the monkeys: ";
+    cin>>n;
+    cout<<"\nInput m: "<<endl;
+    cin>>m;
+    create(n);
+    select(m);
+    cout<<"The king is No."<<head->num<<" monkey."<<endl;
+    delete head;
+    return 0;
+}
+//"C:\Users\zhy\untitled\circular linklist- king of monkeys\cmake-build-debug\circular_linklist__king_of_monkeys.exe"
+//Input the number of the monkeys:8
+//8
+
+//Input m:
+//3
+//3
+//The king is No.7 monkey.
+
+//Process finished with exit code 0
